@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
     <title>To-do App</title>
 </head>
 <body style="margin: 0%; position: relative;">
@@ -18,22 +19,37 @@
         <div style="width: 60%; max-width: 600px;">
             <form method="post" style="width: 100%;">
                 <!-- <Label style="font-size: large;" for="item">Item: </Label> -->
-                <input style="width: 80%; padding: 10px 10px;" type="text" name="item" placeholder="Pet the cat" required />
+                <input style="width: 80%; padding: 10px 10px;" type="text" name="item" placeholder="Add something to do." required />
                 <input style="
-                    background-color: rgb(33, 103, 234); color: white; border: none; padding: 10px;
+                    background-color: rgb(33, 103, 234); color: white; border: none; padding: 10px 20px;
                     font-size: medium; font-family: Arial, Helvetica, sans-serif; border-radius: 3px;"
-                    type="submit" value="Submit"
+                    type="submit" value="Add"
                 />
             </form>
             <div style="margin-left: 20px; margin-top: 50px;">
                 <p style="color:dodgerblue; font-weight: 800;"><em>My To-Do List:</em></p>
-                <ul style="list-style-type: lower-roman;">
+                <ul style="list-style-type: lower-roman; width: 80%;">
+                    {% if items|length == 0 %}
+                        <p>Nothing to-do! Add something.</p>
+                    {% endif %}
                     {% for item in items %}
-                    <li>{{item}}</li>
+                        <li style="margin: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: large;
+                            font-weight: 300; border-bottom: 1px solid rgb(48, 117, 246);">
+                            <span style="display: flex; justify-content: space-between;">
+                                {{item}}
+                                <input style="font-size: small; color:firebrick; padding: 0 8px; margin: 1px 0;
+                                    background-color: azure; border-radius: 2px; border-width: 1px;"
+                                    type="button" value="X"
+                                />
+                            </span>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
     </div>
+<script>
+
+</script>
 </body>
 </html>
