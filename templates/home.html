@@ -17,8 +17,10 @@
     </h2>
     <div style="margin-top: 5vh; display: flex; justify-content: center;">
         <div style="width: 60%; max-width: 600px;">
-            <form method="post" style="width: 100%;">
-                <input style="width: 80%; padding: 10px 10px;" type="text" name="item" placeholder="Add something to do." required />
+            <form method="post" style="width: 90%; display: flex; align-items: center; justify-content: space-between;">
+                <input style="width: 80%; padding: 8px 10px; font-size: medium;"
+                    type="text" name="item" placeholder="Add something to do." required
+                />
                 <input style="
                     background-color: rgb(33, 103, 234); color: white; border: none; padding: 10px 20px;
                     font-size: medium; font-family: Arial, Helvetica, sans-serif; border-radius: 3px;"
@@ -27,20 +29,20 @@
             </form>
             <div style="margin-left: 20px; margin-top: 50px;">
                 <p style="color:dodgerblue; font-weight: 800;"><em>My To-Do List:</em></p>
-                <ul style="list-style-type: lower-roman; width: 80%;">
+                <ul style="list-style-type: none; width: 80%;">
                     {% if items|length == 0 %}
                         <p style="color:darkgrey; font-style: oblique;">Nothing to-do! Add something.</p>
                     {% endif %}
                     {% for item in items %}
                         <li style="margin: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: large;
-                            font-weight: 300; border-bottom: 1px solid rgb(48, 117, 246);">
+                            font-weight: 300; border-bottom: 1px dotted rgb(48, 117, 246);">
                             <span style="display: flex; justify-content: space-between; align-items: center;">
                                 {{item}}
                                 <!-- <input style="font-size: small; color:firebrick; padding: 0 8px; margin: 1px 0;
                                     background-color: azure; border-radius: 2px; border-width: 1px;"
                                     type="button" value="X"
                                 /> -->
-                                <button id="remBtn" type="submit" style="border: none; border-radius: 3px; margin-bottom: 2px;">
+                                <button title="Delete" id="remBtn" type="submit" style="border: none; border-radius: 3px; margin-bottom: 2px;">
                                     <!-- <?xml version="1.0" encoding="UTF-8"?> -->
                                     <svg width="22px" height="22px" viewBox="0 0 24 24" stroke-width="1.5" fill="none"
                                         xmlns="http://www.w3.org/2000/svg" color="#000000">
@@ -48,7 +50,7 @@
                                             stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                                         </path>
                                         <path d="M21 6L15.375 6M3 6L8.625 6M8.625 6V4C8.625 2.89543 9.52043 2 10.625 2H13.375C14.4796 2 15.375 2.89543 15.375 4V6M8.625 6L15.375 6"
-                                        stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                         </path>
                                     </svg>
                                 </button>
