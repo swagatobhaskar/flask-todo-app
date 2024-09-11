@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 # from flask_migrate import Migrate
 import os
@@ -49,6 +49,15 @@ def home():
     todos = Todo.query.all()
     # return render_template('home.html', items=todo_items)
     return render_template('home.html', items=todos)
+
+@app.route("/delete/<int:id>", methods=['DELETE'])
+def remove_item(id):
+    todo_item = Todo.query.get(id)
+    if todo_item is None:
+        abort(jsonify(message="Todo with this id not found!"), 404)
+    db.session.delete(todo_item)
+    db.session.commit()
+    return jsonify({'message': 'success'}), 200
 
 if __name__=='__main__':
     app.run(debug=True)
