@@ -36,7 +36,7 @@
                     {% endif %}
                     {% for item in items %}
                         <li id="item-{{ item.id }}" style="margin: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: large;
-                            font-weight: 300; border-bottom: 1px dotted rgb(48, 117, 246);">
+                            font-weight: 400; color: rgb(16, 60, 142); border-bottom: 1px dotted rgb(48, 117, 246);">
                             <span style="display: flex; justify-content: space-between; align-items: center;">
                                 {{item.item}}
                                 <button title="Delete item" id="remBtn" type="submit" onclick="removeItem({{item.id}})"

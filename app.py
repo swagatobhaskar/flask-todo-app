@@ -1,14 +1,27 @@
 from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
-# from flask_migrate import Migrate
-import os
+
+from os import path, environ, getenv
+from dotenv import load_dotenv
+
+# basedir = path.abspath(path.dirname(__file__))
+# load_dotenv(path.join(basedir, '.env'))
 
 app = Flask(__name__)
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'todo_data.db')
+env_type = environ.get('ENV')
+
+print("ENV-->", env_type)
+print("ENV#2-->", getenv('ENV'))
+
+if env_type == 'development':
+    config = 'config.DevConfig'
+else:
+    config = 'config.ProdConfig'
+
+app.config.from_object(config)
+
 db = SQLAlchemy(app)
-# migrate = Migrate(app, db)
 
 """
 Without using flask-migrate, create the db with:
@@ -23,7 +36,7 @@ With flask-migrate, run the commands:
 >>> flask db migrate -m "..."
 >>> flask db upgrade
 """
-
+# ---------------------------------------------------------------------
 class Todo(db.Model):
     __tablename__ = 'todo'
 
@@ -33,31 +46,30 @@ class Todo(db.Model):
     def __repr__(self):
         return f'<Todo item: {str(self.id)}>'
 
-# todo_items = []
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    # return '<h3>Hello...</h3>'
     if request.method == "POST":
         new_item = request.form["item"]
-        # todo_items.append(item)
         db.session.add(Todo(item=new_item))
         db.session.commit()
-        # return render_template('home.html', items=todo_items)
         return redirect(url_for('home'))
     
     todos = Todo.query.all()
-    # return render_template('home.html', items=todo_items)
     return render_template('home.html', items=todos)
 
 @app.route("/delete/<int:id>", methods=['DELETE'])
 def remove_item(id):
-    todo_item = Todo.query.get(id)
+    todo_item = db.session.get(Todo, id) # Todo.query.get(id) is considered legacy
     if todo_item is None:
         abort(jsonify(message="Todo with this id not found!"), 404)
     db.session.delete(todo_item)
     db.session.commit()
     return jsonify({'message': 'success'}), 200
 
+# ----------------------------------------------------------------------
+
+
 if __name__=='__main__':
-    app.run(debug=True)
+    # removed DEBUG=True because it will be modified through config file
+    app.run()
