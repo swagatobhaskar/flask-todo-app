@@ -1,9 +1,10 @@
+/*
 function removeItem(id) {
     fetch(`/delete/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
+            // 'X-Requested-With': 'XMLHttpRequest'
         }
     })
     .then(response => {
@@ -13,7 +14,7 @@ function removeItem(id) {
                 throw new Error(errorData.message || "Failed t delete item!");
             });
         }
-        return response.json();
+        return response.status;
     })
     .then(data => {
         if (data.message === 'success') {
@@ -24,4 +25,23 @@ function removeItem(id) {
         }
     })    
     .catch(error => console.error('Error:', error));
+}
+*/
+
+function removeItem(id) {
+    fetch(`/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => {
+        if (response.status == 200) {
+            console.log("Success")
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error(error)
+    });
 }
