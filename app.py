@@ -12,8 +12,7 @@ app = Flask(__name__)
 
 env_type = environ.get('ENV')
 
-print("ENV-->", env_type)
-print("ENV#2-->", getenv('ENV'))
+print("ENV-->", env_type, getenv('ENV'))
 
 if env_type == 'development':
     config = 'config.DevConfig'
@@ -47,7 +46,7 @@ class Todo(db.Model):
         return self.created_at.strftime("%d %B, %Y at %H:%M %p")
 
     def __repr__(self):
-        return f'<Todo ID: {str(self.id)} | {self.item[:10]}>'
+        return f'<ID: {str(self.id)} | {self.item[:10]}>'
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -69,6 +68,11 @@ def remove_item(id):
     db.session.delete(todo_item)
     db.session.commit()
     return jsonify({'message': 'success'}), 200
+
+@app.route("/edit/<int:id>", methods=['PUT'])
+def edit_item(id):
+    item_to_edit = db.session.get(Todo, id)
+
 
 # ----------------------------------------------------------------------
 
