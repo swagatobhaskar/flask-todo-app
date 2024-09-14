@@ -72,6 +72,7 @@ def remove_item(id):
 @app.route("/edit/<int:id>", methods=['PUT'])
 def edit_item(id):
     item_to_edit = db.session.get(Todo, id)
+    pass
 
 
 # ----------------------------------------------------------------------

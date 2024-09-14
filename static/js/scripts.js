@@ -16,3 +16,40 @@ function removeItem(id) {
         console.error(error); // only in DEBUG
     });
 }
+
+// Below method won't work, it'll only take the first editBtn
+// const editBtn = document.getElementById("item-edit-btn");
+
+// Get all the elements whose id matches with 'item-edit-btn'
+const editBtns = document.querySelectorAll('[id=item-edit-btn]')
+
+editBtns.forEach(editBtn => {
+
+    editBtn.addEventListener('click', () => {
+
+        // get the parent li element for this button
+        const parentLiElement = editBtn.closest('li');
+        console.log(`Parent Li data-id: ${parentLiElement.getAttribute('data-id')}`)
+
+        // get the div element inside the parent li
+        // that holds the texts, and the edit and delete buttons
+        const itemDivOfLi = parentLiElement.querySelector('#item-display-full'); // The '#' is required
+        console.log(`itemDivOfLi data-id: ${itemDivOfLi.getAttribute('data-id')}`)
+
+         // Get the editing section, which is closest to the above itemDivOfLi
+        // const editingDiv = itemDivOfLi.querySelector('#item-edit-section');
+        const editingDiv = parentLiElement.querySelector('#item-edit-section');
+        // console.log(`editingDiv data-id: ${editingDiv.getAttribute('data-id')}`);
+        
+        if (itemDivOfLi){
+             itemDivOfLi.style.display = 'none';
+        }
+
+        if (editingDiv) {
+            editingDiv.hidden = !editingDiv.hidden;
+            // editingDiv.style.display = 'block';
+        }
+        
+    })
+})
+
