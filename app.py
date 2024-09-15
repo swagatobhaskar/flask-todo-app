@@ -40,6 +40,7 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     item = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now(), nullable=True)
+    is_complete = db.Column(db.Boolean, default=False, nullable=True)
     
     def verbose_time(self):
         # %d- Numeric day of the month, %B Month full name
@@ -78,6 +79,18 @@ def edit_item(id):
         abort(jsonify(message="Todo with this id not found!"), 404)
 
     item_to_edit.item = request.json.get('newValue')
+    db.session.commit()
+    return jsonify({'message': 'success'}), 200
+
+@app.route("/complete/<int:id>", methods=['PUT'])
+def mark_complete(id):
+    print("Comp id: ", id)
+    completed_item = Todo.query.get_or_404(id)# db.session.get(Todo, id)
+    
+    if completed_item is None:
+        abort(jsonify(message="Todo with this id not found!"), 404)
+
+    completed_item.is_complete = request.json.get('completed')
     db.session.commit()
     return jsonify({'message': 'success'}), 200
 

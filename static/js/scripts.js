@@ -148,14 +148,32 @@ itemEntries.forEach(item => {
 const markCompleteAll = document.querySelectorAll('#mark-complete');
 markCompleteAll.forEach(markComplete => {
     markComplete.addEventListener('click', ()=> {
-    const fullItem = document.querySelectorAll('#item-display-full');
-    const itemText = fullItem.closest('#item-text');
-    itemText.style.setProperty("text-decoration", "line-through");
-    fetch('/completed/<int:id>', {
+    // const fullItem = document.querySelectorAll('#item-display-full');
+    // const itemText = markComplete.closest('#item-text');
+    // itemText.style.setProperty("text-decoration", "line-through");
+    const itemEntry = markComplete.closest('#item-entry');
+        
+    const itemDataId = itemEntry.getAttribute('data-id');
+    const itemId = itemDataId.split('-')[1]
+
+    const completed = true;
+
+    fetch(`/complete/${itemId}`, {
         method: 'PUT',
             headers: {
             'Content-Type': 'application/json',
             },
+            body: JSON.stringify({completed})
         })
+        .then(response => {
+            if (response.status == 200) {
+                window.location.reload();
+            } else {
+                alert("Something went wrong!")
+            }
+        })
+        .catch(error => {
+            console.error(error); // only in DEBUG
+        });
     })
 })
