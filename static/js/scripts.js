@@ -148,9 +148,7 @@ itemEntries.forEach(item => {
 const markCompleteAll = document.querySelectorAll('#mark-complete');
 markCompleteAll.forEach(markComplete => {
     markComplete.addEventListener('click', ()=> {
-    // const fullItem = document.querySelectorAll('#item-display-full');
-    // const itemText = markComplete.closest('#item-text');
-    // itemText.style.setProperty("text-decoration", "line-through");
+    
     const itemEntry = markComplete.closest('#item-entry');
         
     const itemDataId = itemEntry.getAttribute('data-id');
