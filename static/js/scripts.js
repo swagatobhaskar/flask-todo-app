@@ -121,3 +121,41 @@ editDoneBtns.forEach( editDoneBtn => {
         });
     })
 })
+
+
+const itemEntries = document.querySelectorAll('#item-entry');
+
+itemEntries.forEach(item => {
+    item.addEventListener('mouseover', () => {
+        const checkbox = item.querySelector('#mark-complete');
+
+        if (checkbox) {
+            checkbox.hidden = false;
+        }
+    })
+})
+
+itemEntries.forEach(item => {
+    item.addEventListener('mouseout', () => {
+        const checkbox = item.querySelector('#mark-complete');
+
+        if (checkbox) {
+            checkbox.hidden = true;
+        }
+    })
+})
+
+const markCompleteAll = document.querySelectorAll('#mark-complete');
+markCompleteAll.forEach(markComplete => {
+    markComplete.addEventListener('click', ()=> {
+    const fullItem = document.querySelectorAll('#item-display-full');
+    const itemText = fullItem.closest('#item-text');
+    itemText.style.setProperty("text-decoration", "line-through");
+    fetch('/completed/<int:id>', {
+        method: 'PUT',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+        })
+    })
+})
