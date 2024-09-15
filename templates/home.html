@@ -39,7 +39,6 @@
                         <p style="color:darkgrey; font-style: oblique;">Nothing to-do! Add something.</p>
                     {% endif %}
                     {% for item in items %}
-                        <!-- Extra identifier can be added by prefixing the attribute with 'data-' -->
                         <li id="item-entry" data-id="item-{{ item.id }}"
                             style="margin: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: large;
                             font-weight: 400; color: rgb(16, 60, 142); border-bottom: 1px dotted rgb(48, 117, 246);">
@@ -50,7 +49,7 @@
                                         style="width: 60%; padding: 4px 6px; font-size: medium;"
                                         id="edit-input"
                                         type="text"
-                                        value={{item.item}}
+                                        value="{{item.item}}"
                                     />
                                     <div style="display: flex; justify-content: space-around; gap: 4px;">
                                         {% include('item-edit-buttons.html') %}

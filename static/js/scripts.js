@@ -82,7 +82,7 @@ cancelEditBtns.forEach(cancelEditBtn => {
 })
 
 
-editDoneBtns = document.querySelectorAll('#item-edit-done');
+const editDoneBtns = document.querySelectorAll('#item-edit-done');
 
 editDoneBtns.forEach( editDoneBtn => {
     editDoneBtn.addEventListener('click', () => {
@@ -119,9 +119,5 @@ editDoneBtns.forEach( editDoneBtn => {
         .catch(error => {
             console.error(error); // only in DEBUG
         });
-
-        // Hiding the edit section after saving is not needed
-        // since page is getting reloaded after getting response
-        //itemEntry.querySelector('#item-edit-section').style.display = 'none';
     })
 })
