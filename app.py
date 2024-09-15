@@ -69,11 +69,17 @@ def remove_item(id):
     db.session.commit()
     return jsonify({'message': 'success'}), 200
 
+
 @app.route("/edit/<int:id>", methods=['PUT'])
 def edit_item(id):
-    item_to_edit = db.session.get(Todo, id)
+    item_to_edit = Todo.query.get_or_404(id)# db.session.get(Todo, id)
     
+    if item_to_edit is None:
+        abort(jsonify(message="Todo with this id not found!"), 404)
 
+    item_to_edit.item = request.json.get('newValue')
+    db.session.commit()
+    return jsonify({'message': 'success'}), 200
 
 # ----------------------------------------------------------------------
 

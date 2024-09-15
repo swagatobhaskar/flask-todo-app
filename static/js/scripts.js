@@ -17,9 +17,6 @@ function removeItem(id) {
     });
 }
 
-// Below method won't work, it'll only take the first editBtn
-// const editBtn = document.getElementById("item-edit-btn");
-
 // Get all the elements whose id matches with 'item-edit-btn'
 const editBtns = document.querySelectorAll('[id=item-edit-btn]')
 
@@ -35,11 +32,9 @@ editBtns.forEach(editBtn => {
         const itemDivOfLi = parentLiElement.querySelector('#item-display-full'); // The '#' is required
         console.log(`itemDivOfLi data-id: ${itemDivOfLi.getAttribute('data-id')}`)
 
-         // Get the editing section, which is closest to the above itemDivOfLi
-        // const editingDiv = itemDivOfLi.querySelector('#item-edit-section');
+        // Get the editing section, which is closest to the above itemDivOfLi
         const editingDiv = parentLiElement.querySelector('#item-edit-section');
-        // console.log(`editingDiv data-id: ${editingDiv.getAttribute('data-id')}`);
-        
+                
         if (itemDivOfLi){
             itemDivOfLi.style.display = 'none';
             // itemDivOfLi.hidden = true;
@@ -55,7 +50,6 @@ editBtns.forEach(editBtn => {
 })
 
 
-// const cancelEditBtns = document.getElementById("item-edit-cancel");
 const cancelEditBtns = document.querySelectorAll('[id=item-edit-cancel]')
 
 cancelEditBtns.forEach(cancelEditBtn => {
@@ -68,11 +62,10 @@ cancelEditBtns.forEach(cancelEditBtn => {
 
         // get the div element inside the parent li
         // that holds the texts, and the edit and delete buttons
-        const itemDivOfLi = parentLiElement.querySelector('#item-display-full'); // The '#' is required
+        const itemDivOfLi = parentLiElement.querySelector('#item-display-full');
         console.log(`itemDivOfLi data-id: ${itemDivOfLi.getAttribute('data-id')}`)
 
         // Get the editing section, which is closest to the above itemDivOfLi
-        // const editingDiv = itemDivOfLi.querySelector('#item-edit-section');
         const editingDiv = parentLiElement.querySelector('#item-edit-section');
 
         if (editingDiv) {
@@ -82,16 +75,53 @@ cancelEditBtns.forEach(cancelEditBtn => {
 
         if (itemDivOfLi) {
             // itemDivOfLi.hidden = !itemDivOfLi.hidden;
-            itemDivOfLi.hidden = false;
-            itemDivOfLi.style.display = 'block';
+            // itemDivOfLi.hidden = false;
+            itemDivOfLi.style.display = 'flex';
         }
     })
 })
 
-editDoneBtns = document.querySelectorAll('[id=item-edit-done]');
+
+editDoneBtns = document.querySelectorAll('#item-edit-done');
+
 editDoneBtns.forEach( editDoneBtn => {
     editDoneBtn.addEventListener('click', () => {
-        editInput = editDoneBtn.
-        console.log()
+        
+        // Find the closest item entry
+        const itemEntry = editDoneBtn.closest('#item-entry');
+        
+        const itemDataId = itemEntry.getAttribute('data-id');
+        const itemId = itemDataId.split('-')[1]
+        console.log("ITEM ID:", itemId);
+
+        // Get the input field within this item entry
+        const inputField = itemEntry.querySelector('#edit-input');
+
+        // Get the new value from the input field
+        const newValue = inputField.value;
+        console.log("New value: ", newValue);
+
+        
+        fetch(`/edit/${itemId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ newValue })
+        })
+        .then(response => {
+            if (response.status == 200) {
+                window.location.reload();
+            } else {
+                alert("Something went wrong!")
+            }
+        })
+        .catch(error => {
+            console.error(error); // only in DEBUG
+        });
+
+        // Hiding the edit section after saving is not needed
+        // since page is getting reloaded after getting response
+        //itemEntry.querySelector('#item-edit-section').style.display = 'none';
     })
 })
